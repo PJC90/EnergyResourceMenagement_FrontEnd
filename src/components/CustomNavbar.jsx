@@ -18,7 +18,7 @@ function CustomNavbar(){
 return(
     <Navbar fixed="top" className="bg-info " style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)" }}>
       <Container>
-        <Navbar.Brand href="#home" className="text-white ">Energy Resource Menagement</Navbar.Brand>
+        <Navbar.Brand href="#home" className="text-white " onClick={()=>{navigate("/")}}>Energy Resource Menagement</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           

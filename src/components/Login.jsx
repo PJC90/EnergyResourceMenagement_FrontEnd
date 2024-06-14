@@ -8,18 +8,18 @@ function Login(){
     const[password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const bodyToUse = {
+    const payload = {
         email: email,
         password: password,
     }
 
     const serverLogin = () => {
-        fetch("http://localhost:3010/auth/login",{
+        fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`,{
             method:"POST",
             headers: {
                 "Content-Type":"application/json"
             },
-            body: JSON.stringify(bodyToUse)
+            body: JSON.stringify(payload)
         })
         .then((res)=>{
             if(res.ok){
@@ -69,7 +69,12 @@ function Login(){
                         Login
                     </Button>
                 </Form>
-                <p className="mt-3">Sei nuovo? <span className="fw-bold" style={{cursor:"pointer"}}> Registrati</span></p>
+                <p className="mt-3">Sei nuovo? 
+                    <span className="fw-bold ps-2" style={{cursor:"pointer"}} 
+                    onClick={()=>{navigate("/registration")}}
+                    onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} 
+                    onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
+                    >Registrati</span></p>
                 </Col>
             </Row>
         </Container>
