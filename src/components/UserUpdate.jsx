@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap"
 import Checkmark from "./utils/Checkmark"
+import { useDispatch } from "react-redux"
+import { getMyProfileAction } from "../redux/actions"
 
 function UserUpdate(){
     const [myprofile, setMyProfile] = useState(null)
@@ -16,6 +18,8 @@ function UserUpdate(){
     const [image, setImage] = useState(null)
     const [updateImage, setUpdateImage] = useState(false)
     const [updateImageSuccess, setUpdateImageSuccess] = useState(false)
+
+    const dispatch = useDispatch()
 
 const getMyProfile = () => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/user/me`,{
@@ -67,6 +71,7 @@ const editProfile = () =>{
             setTimeout(()=>{
                 setEditProfileSuccess(false)
             },3000)
+            dispatch(getMyProfileAction()) //aggiorna lo stato in redux
             console.log("Profilo modificato: ")
             console.log( res)
         }else{
@@ -99,6 +104,7 @@ const uploadImage = () => {
             setTimeout(()=>{
                 setUpdateImageSuccess(false)
             },3000)
+            dispatch(getMyProfileAction()) //aggiorna lo stato in redux
         }else{
             throw new Error("Errore nel caricare immagine profilo")
         }

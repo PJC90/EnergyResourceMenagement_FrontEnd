@@ -30,7 +30,7 @@ function Login(){
         })
         .then((data)=>{
             localStorage.setItem("tokenAdmin", "Bearer " + data.token)
-            navigate("/home")
+            navigate("/")
         })
         .catch((err)=>{
             console.log(err)

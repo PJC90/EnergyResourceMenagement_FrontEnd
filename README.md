@@ -3,6 +3,8 @@
 - `npm install react-router-dom`
 - `npm install react react-bootstrap bootstrap`
 - `npm install react-bootstrap-icons`
+- `npm install @reduxjs/toolkit`
+- `npm install react-redux`
 
 # React + Vite
 

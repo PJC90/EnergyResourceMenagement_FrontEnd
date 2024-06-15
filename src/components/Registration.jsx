@@ -43,7 +43,7 @@ function Registration(){
             setRegisterSuccess(true)
             setTimeout(()=>{
                 setRegisterSuccess(false)
-                navigate("/")
+                navigate("/login")
             },3000)
         })
         .catch((err)=>{

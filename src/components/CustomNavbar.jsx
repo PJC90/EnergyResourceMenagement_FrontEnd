@@ -1,9 +1,19 @@
-import { Container, Dropdown, Navbar } from "react-bootstrap"
-import { Person } from "react-bootstrap-icons"
+import { useEffect } from "react"
+import { Button, Container, Dropdown, Navbar } from "react-bootstrap"
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import { getMyProfileAction } from "../redux/actions"
 
 function CustomNavbar(){
   const navigate = useNavigate()
+  const token = localStorage.getItem("tokenAdmin")
+
+  const dispatch = useDispatch()
+  const profile = useSelector((state)=> state.user.content)
+
+  useEffect(() => {
+      dispatch(getMyProfileAction());
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("tokenAdmin")
@@ -16,16 +26,16 @@ function CustomNavbar(){
 
 
 return(
-    <Navbar fixed="top" className="bg-info " style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)" }}>
+    <Navbar fixed="top" className="bg-info " style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)", height:'70px' }}>
       <Container>
         <Navbar.Brand href="#home" className="text-white " onClick={()=>{navigate("/")}}>Energy Resource Menagement</Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          
+          {token ? (
           <Dropdown >
-            <Dropdown.Toggle variant="white" className="text-white">
-              <Person style={{width:'30px', height:'30px'}} className="me-3"/>
-              Nome Cognome
+            <Dropdown.Toggle variant="white" className="text-white d-flex align-items-center">
+             <img src={profile && profile.avatar} alt="image-profile" style={{width:'45px', height:'45px', objectFit:"cover"}} className="rounded-pill me-3 border border-3"/>
+              <p className="me-3 m-0">{profile && profile.name} {profile && profile.surname} </p>
               </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item onClick={()=>{navigate("/updateUser")}}>Gestione Account</Dropdown.Item>
@@ -35,7 +45,12 @@ return(
               <Dropdown.Item onClick={handleLogout}>Log out</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-
+          ) : (
+            <Button variant="white" className="text-white"
+            onClick={()=>{navigate("/login")}}>
+              Login
+            </Button>
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
