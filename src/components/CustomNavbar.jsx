@@ -28,7 +28,7 @@ return(
               Nome Cognome
               </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>Account</Dropdown.Item>
+              <Dropdown.Item onClick={()=>{navigate("/updateUser")}}>Gestione Account</Dropdown.Item>
               <Dropdown.Item>Gestione Azienda</Dropdown.Item>
               <Dropdown.Item>Gestione Dispositivi</Dropdown.Item>
               <Dropdown.Divider/>

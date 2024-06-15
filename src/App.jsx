@@ -5,6 +5,7 @@ import Home from './components/Home'
 import Footer from './components/Footer'
 import Login from './components/Login'
 import Registration from './components/Registration'
+import UserUpdate from './components/UserUpdate'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path='/' element={<Login/>}/>
           <Route path='/home' element={<Home/>}/>
           <Route path='/registration' element={<Registration/>}/>
+          <Route path='/updateUser' element={<UserUpdate/>}/>
         </Routes>
         </div>
         <Footer/>  

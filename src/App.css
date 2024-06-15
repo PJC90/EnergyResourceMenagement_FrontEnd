@@ -1,0 +1,12 @@
+.custom-file-input {
+    background-color: #020d0f4b !important;
+    color: white !important; 
+  }
+  .custom-file-input::-webkit-file-upload-button {
+    background-color: #0DCAF0 !important;
+    color: white !important;
+
+  }
+  .custom-file-input::file-selector-button {
+    color: white; /* Cambia il colore del testo del bottone "Scegli file" */
+  }

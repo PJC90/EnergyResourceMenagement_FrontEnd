@@ -22,6 +22,7 @@ function Registration(){
         birthday: birthday,
     }
 
+
     const registerUser = ()=>{
         fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/register`,{
             method: "POST",
@@ -53,7 +54,7 @@ function Registration(){
         <Container >
             <Row className="d-flex justify-content-center ">
                 <Col className="d-flex flex-column " xs={6}>
-                <p className="text-body-tertiary text-center m-0">Compila i seguenti campi</p>
+                <p className="text-body-tertiary text-center m-0">Registrati compilando i seguenti campi</p>
                 <Form
                 onSubmit={(e)=>{
                     e.preventDefault()
