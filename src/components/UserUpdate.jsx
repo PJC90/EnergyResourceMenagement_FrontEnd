@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap"
 import Checkmark from "./utils/Checkmark"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { getMyProfileAction } from "../redux/actions"
 
 function UserUpdate(){
@@ -21,30 +21,7 @@ function UserUpdate(){
 
     const dispatch = useDispatch()
 
-const getMyProfile = () => {
-    fetch(`${import.meta.env.VITE_API_BASE_URL}/user/me`,{
-        headers:{Authorization: localStorage.getItem("tokenAdmin")}
-    })
-    .then((res)=>{
-        if(res.ok){
-            return res.json()
-        }else{
-            throw new Error("Errore nel ricevere i dettagli dell' user loggato")
-        }
-    })
-    .then((data)=>{
-        console.log(data)
-        setMyProfile(data)
-        setName(data.name || "");
-        setSurname(data.surname || "");
-        setUsername(data.username || "");
-        setEmail(data.email || "");
-        setBirthday(data.birthday || "");
-    })
-    .catch((err)=>{
-        console.log(err)
-    })
-}
+    const profile = useSelector((state)=> state.user.content)
 
 const editProfile = () =>{
 
@@ -115,8 +92,15 @@ const uploadImage = () => {
 }
 
 useEffect(()=>{
-getMyProfile()
-},[updateImageSuccess, editProfileSuccess])
+    if(profile){
+        setMyProfile(profile)
+        setName(profile.name || "");
+        setSurname(profile.surname || "");
+        setUsername(profile.username || "");
+        setEmail(profile.email || "");
+        setBirthday(profile.birthday || "");
+    }
+},[profile])
 
     return(
         <Container>
@@ -126,19 +110,19 @@ getMyProfile()
                 <Form onSubmit={(e)=>{e.preventDefault(); editProfile()}} className="mt-5">
                     <Form.Group>
                         <Form.Label>Nome:</Form.Label>
-                        <Form.Control type="text" placeholder={myprofile && myprofile.name} value={name} onChange={(e)=>{setName(e.target.value)}}/>
+                        <Form.Control type="text"  value={name} onChange={(e)=>{setName(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Cognome:</Form.Label>
-                        <Form.Control type="text" placeholder={myprofile && myprofile.surname} value={surname} onChange={(e)=>{setSurname(e.target.value)}}/>
+                        <Form.Control type="text"  value={surname} onChange={(e)=>{setSurname(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Nickname:</Form.Label>
-                        <Form.Control type="text" placeholder={myprofile && myprofile.username} value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
+                        <Form.Control type="text"  value={username} onChange={(e)=>{setUsername(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Email:</Form.Label>
-                        <Form.Control type="text" placeholder={myprofile && myprofile.email} value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
+                        <Form.Control type="text"  value={email} onChange={(e)=>{setEmail(e.target.value)}}/>
                     </Form.Group>
                     <Form.Group className="mt-3">
                         <Form.Label>Password:</Form.Label>

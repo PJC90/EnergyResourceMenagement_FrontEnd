@@ -1,21 +1,22 @@
-import { GET_PROFILE, RESET_PROFILE } from '../actions'
+import { GET_COMPANY, RESET_COMPANY } from '../actions'
 
 const initialState = {
   content: null,
 }
 
-const userReducer = (state = initialState, action) => {
+const companyReducer = (state = initialState, action) => {
   switch (action.type) {
-    case GET_PROFILE:
+    case GET_COMPANY:
       return {
         ...state,
         content: action.payload,
       }
-    case RESET_PROFILE:
+    case RESET_COMPANY:
       return initialState
 
     default:
       return state
   }
 }
-export default userReducer
+
+export default companyReducer

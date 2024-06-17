@@ -6,6 +6,9 @@ import Footer from './components/Footer'
 import Login from './components/Login'
 import Registration from './components/Registration'
 import UserUpdate from './components/UserUpdate'
+import Dashboard from './components/Dashboard'
+import CompanyCreation from './components/CompanyCreation'
+import CompanyUpdate from './components/CompanyUpdate'
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/registration' element={<Registration/>}/>
           <Route path='/updateUser' element={<UserUpdate/>}/>
+          <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path="/companyCreation" element={<CompanyCreation/>}/>
+          <Route path="/updateCompany" element={<CompanyUpdate/>}/>
         </Routes>
         </div>
         <Footer/>  
