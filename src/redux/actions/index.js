@@ -1,5 +1,6 @@
 export const GET_PROFILE = 'GET_PROFILE'
 export const GET_COMPANY = 'GET_COMPANY'
+export const GET_DEVICE = 'GET_DEVICE'
 export const RESET_PROFILE = 'RESET_PROFILE'
 export const RESET_COMPANY = 'RESET_COMPANY'
 
@@ -18,10 +19,8 @@ export const getMyProfileAction = () => {
     })
       .then((res) => {
         if (res.ok) {
-          console.log('Response OK')
           return res.json()
         } else {
-          console.error('Response not OK')
           throw new Error("Errore nel ricevere i dettagli dell' user loggato")
         }
       })
@@ -61,5 +60,31 @@ export const getMyCompany = () => {
       .catch((err) => {
         console.log(err)
       })
+  }
+}
+export const getMyDevice = () => {
+  return (dispatch) => {
+    fetch(
+      `${
+        import.meta.env.VITE_API_BASE_URL
+      }/device?page=0&size=10&order=installation`,
+      {
+        headers: { Authorization: localStorage.getItem('tokenAdmin') },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Errore nel ricevere i dispositivi')
+        }
+      })
+      .then((device) => {
+        dispatch({
+          type: GET_DEVICE,
+          payload: device,
+        })
+      })
+      .catch((err) => console.log(err))
   }
 }
