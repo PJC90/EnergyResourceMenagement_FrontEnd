@@ -6,6 +6,7 @@
 - `npm install @reduxjs/toolkit`
 - `npm install react-redux`
 - `npm install react-minimal-pie-chart`
+- `npm install --save react-google-charts`
 
 # React + Vite
 

@@ -1,8 +1,12 @@
 export const GET_PROFILE = 'GET_PROFILE'
 export const GET_COMPANY = 'GET_COMPANY'
 export const GET_DEVICE = 'GET_DEVICE'
+export const GET_DEVICE_DETAIL = 'GET_DEVICE_DETAIL'
+export const GET_CONSUMPTION_THRESHOLD = 'GET_CONSUMPTION_THRESHOLD'
 export const RESET_PROFILE = 'RESET_PROFILE'
 export const RESET_COMPANY = 'RESET_COMPANY'
+
+const token = localStorage.getItem('tokenAdmin')
 
 export const resetProfile = () => ({
   type: RESET_PROFILE,
@@ -83,6 +87,54 @@ export const getMyDevice = () => {
         dispatch({
           type: GET_DEVICE,
           payload: device,
+        })
+      })
+      .catch((err) => console.log(err))
+  }
+}
+export const getDeviceDetail = (deviceId) => {
+  return (dispatch) => {
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/device/${deviceId}`, {
+      headers: { Authorization: token },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Errore nel ricevere singolo dispositivo')
+        }
+      })
+      .then((device) => {
+        dispatch({
+          type: GET_DEVICE_DETAIL,
+          payload: device,
+        })
+      })
+      .catch((err) => console.log(err))
+  }
+}
+
+export const getLastConsumptionThreshold = (deviceId) => {
+  return (dispatch) => {
+    fetch(
+      `${
+        import.meta.env.VITE_API_BASE_URL
+      }/reading/consumptionThreshold/${deviceId}`,
+      {
+        headers: { Authorization: token },
+      }
+    )
+      .then((res) => {
+        if (res.ok) {
+          return res.json()
+        } else {
+          throw new Error('Errore nel ricevere ultima soglia di consumo')
+        }
+      })
+      .then((ct) => {
+        dispatch({
+          type: GET_CONSUMPTION_THRESHOLD,
+          payload: ct,
         })
       })
       .catch((err) => console.log(err))

@@ -30,7 +30,7 @@ function CustomNavbar(){
 
 return(
     <Navbar fixed="top" className="bg-info " style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)", height:'70px' }}>
-      <Container>
+      <Container fluid className="px-5">
         <Navbar.Brand href="#home" className="text-white " onClick={()=>{navigate("/")}}>Energy Resource Menagement</Navbar.Brand>
         <Nav.Link onClick={()=>{navigate("/dashboard")}}>Dashboard</Nav.Link>
         <Navbar.Toggle />

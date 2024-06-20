@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button, Col, Container, Row, Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCompany, getMyDevice } from "../redux/actions";
@@ -10,16 +10,14 @@ import { PieChart } from "react-minimal-pie-chart";
 
 function Dashboard(){
 
-    const [viewDevice, setViewDevice] = useState(false)
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const company = useSelector((state)=>state.company.content)
-    const device = useSelector((state)=>state.device.content)
+    const allMyDevice = useSelector((state)=>state.device.content)
     const user = useSelector((state)=> state.user.content)
 
     const filterByType = (type) => {
-        return device && device.content ? device.content.filter((d)=>d.deviceType === type) : []
+        return allMyDevice && allMyDevice.content ? allMyDevice.content.filter((d)=>d.deviceType === type) : []
     }
 
     const domestico = filterByType("DOMESTIC")
@@ -37,8 +35,6 @@ function Dashboard(){
     useEffect(()=>{
         dispatch(getMyCompany())
         dispatch(getMyDevice())
-        console.log("device")
-        console.log(device)
     },[])
       
     return(
@@ -53,6 +49,7 @@ function Dashboard(){
             </Row>
             }
            {company && 
+           (<>
            <Row>
             <Col className="d-flex flex-column justify-content-center">
             <p>Responsabili {company.name}:</p>
@@ -67,7 +64,7 @@ function Dashboard(){
             </div>   
             </Col>
             <Col>
-            <Button variant="dark" className="text-white">Installa Nuovo Dispositivo</Button>
+            <Button variant="dark" className="text-white" onClick={()=>{navigate("/saveNewDevice")}}>Installa Nuovo Dispositivo</Button>
             </Col>
             <Col className="d-flex align-items-center justify-content-center">
             <p>Azienda: {company.name}</p>
@@ -77,7 +74,7 @@ function Dashboard(){
             </Col>
             
            </Row>
-           }
+           
            <Row className="mt-5">
             <Col className="d-flex me-5 ">
             <Table  bordered hover >
@@ -112,7 +109,7 @@ function Dashboard(){
                     
                     <tr>
                     <td colSpan={2} className="fw-bold">Totale Dispositivi installati</td>
-                    <td className="fw-bold">{device && device.totalElements}</td>
+                    <td className="fw-bold">{allMyDevice && allMyDevice.totalElements}</td>
                     </tr>
                 </tbody>
                 </Table>
@@ -123,24 +120,14 @@ function Dashboard(){
               lineWidth={50} data={chartData}/>
             </Col>
            </Row>
-
-           <Row>
-            <Col className=" mt-5">    
-            <Button variant="info" className="text-white" onClick={()=>{setViewDevice(!viewDevice)}}>
-               {viewDevice ? "Nascondi Dispositivi" : "Mostra Dispositivi" } 
-            </Button>
-            </Col>
-           </Row>
-           {viewDevice && 
+           
            <Row>
             <Col className=" mt-5 d-flex justify-content-between">   
            <Button variant="info" className="text-white">Mostra altri</Button>
            <Button variant="info" className="text-white">Dal più recente</Button>
            </Col>
            </Row>
-           }
-
-           {viewDevice &&
+           
            <Table striped bordered hover className="my-5">
                 <thead>
                     <tr>
@@ -148,17 +135,17 @@ function Dashboard(){
                     <th>Tipologia</th>
                     <th>Installazione</th>
                     <th>Indirizzo</th>
-                    <th>Consumo</th>
+                    <th>Consumo Attuale</th>
                     </tr>
                 </thead>
                 <tbody>
-            { device.content && device.content.map((dev)=>(
+            { allMyDevice.content && allMyDevice.content.map((dev)=>(
             <tr key={dev.deviceId}>
                     <td>{dev.deviceNumber}</td>
                     <td>{dev.deviceType}</td>
                     <td>{dev.installation}</td>
                     <td>{dev.plantAddress}</td>
-                    <td>{dev.consumptionThreshold}</td>
+                    <td>{dev.readings[dev.readings.length -1].readingValue} kWh</td>
                     <td className="text-info text-center" style={{cursor: "pointer"}} 
                     onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} 
                     onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
@@ -168,7 +155,8 @@ function Dashboard(){
             ))}
             </tbody>
            </Table>
-}
+
+           </>)}
         </Container>
     )
 }

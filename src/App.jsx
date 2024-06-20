@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard'
 import CompanyCreation from './components/CompanyCreation'
 import CompanyUpdate from './components/CompanyUpdate'
 import Device from './components/Device'
+import DeviceInstallation from './components/DeviceInstallation'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path='/device/:deviceId' element={<Device/>}/>
           <Route path="/companyCreation" element={<CompanyCreation/>}/>
           <Route path="/updateCompany" element={<CompanyUpdate/>}/>
+          <Route path="/saveNewDevice" element={<DeviceInstallation/>}/>
         </Routes>
         </div>
         <Footer/>  

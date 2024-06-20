@@ -80,8 +80,6 @@ function CompanyUpdate(){
 
     useEffect(()=>{
         dispatch(getMyCompany())
-        console.log("company")
-        console.log(company)
     },[updateImageSuccess])
 
     useEffect(()=>{
@@ -129,8 +127,10 @@ function CompanyUpdate(){
                 </Form>
                 </Col>
                 <Col xs={3} className="mt-5">
-                <img src={company && company.logo} 
+                {company &&
+                <img src={company.logo} 
                 alt="image-company" className="w-100 rounded-3"/>
+                }
                 <Form onSubmit={(e)=>{e.preventDefault(); uploadLogo(); setUpdateImage(true)}} >
                     <Form.Group>
                         <Form.Control 
