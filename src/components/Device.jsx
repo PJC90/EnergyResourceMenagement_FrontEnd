@@ -3,11 +3,13 @@ import { Button, Col, Container, Form, InputGroup, Row, Table } from "react-boot
 import Chart from "react-google-charts";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getDeviceDetail, getLastConsumptionThreshold } from "../redux/actions";
+import { getAlertReadings, getDeviceDetail, getLastConsumptionThreshold } from "../redux/actions";
+import Checkmark from "./utils/Checkmark";
 
 
 function Device(){
     const [consumptionThreshold, setConsumptionThreshold] = useState("")
+    const [updateConsumSuccess, setUpdateConsumSuccess] = useState(false)
     const dispatch = useDispatch()
     const {deviceId} = useParams()
     const deviceDetail = useSelector((state)=>state.device.deviceById)
@@ -84,6 +86,8 @@ function Device(){
             })
             if(response.ok){
                 console.log(response)
+                setUpdateConsumSuccess(true)
+                setTimeout(()=>{setUpdateConsumSuccess(false)},3000)
             }else{
                 throw new Error("Errore nel cambiare la soglia di consumo")
             }
@@ -94,9 +98,19 @@ function Device(){
       }
 
     useEffect(()=>{
-        dispatch(getDeviceDetail(deviceId))
-        dispatch(getLastConsumptionThreshold(deviceId))
-    },[ ])
+            dispatch(getDeviceDetail(deviceId))
+            dispatch(getLastConsumptionThreshold(deviceId))
+    },[deviceId, updateConsumSuccess ])
+
+    useEffect(() => {
+        if (deviceDetail && deviceDetail.readings) {
+            const alertReadings = deviceDetail.readings.filter(dev => dev.consumptionValue > dev.consumptionThreshold);
+            dispatch(getAlertReadings(alertReadings));
+            console.log(alertReadings)
+        }
+    }, [deviceDetail]);
+
+    //oltre a salvare le letture nello stato redux devi salvare (in un altro stato) anche le informazioni del dispositivo perchè redux è immutabile non puoi salvare e modificare un dato
 
 
     return(
@@ -117,11 +131,18 @@ function Device(){
                                         </InputGroup>
                                        
                                             <Button className="text-white text-nowrap me-5" variant="info" type="submit">Imposta nuova soglia</Button>                                       
-                                    </Form>                    
-                               <div className="d-flex align-items-center justify-content-center mt-2">
-                                <p className="m-0"><span className="fw-bold border-bottom border-3 border-info pb-1">Soglia Attuale di Consumo:</span></p>
-                                <p className="ps-4 mb-0 fs-2">{lastConsumptionThreshold}</p>
-                                </div>
+                                    </Form> 
+                                    <div className="d-flex justify-content-between">                  
+                                    <div className="d-flex align-items-center  my-4">
+                                        <p className="m-0"><span className="fw-bold border-bottom border-3 border-info pb-1 ms-5">Soglia Attuale di Consumo:</span></p>
+                                        <p className="ps-4 mb-0 fs-2">{lastConsumptionThreshold && lastConsumptionThreshold} <span className="text-body-tertiary">kWh</span></p>
+                                        </div>
+                                        {updateConsumSuccess &&                               
+                                        <div className="pe-5 mt-4">
+                                        <Checkmark/>
+                                         </div>
+                                        }
+                                    </div> 
                              </div>
                         </Col>
                         <Col className="ms-5 bg-white rounded-3" xs={4}>
@@ -139,10 +160,11 @@ function Device(){
                                 <tr>
                                 <th>Data</th>
                                 <th>Ora</th>
+                                <th>Temp</th>
                                 <th>Totale Consumo</th>
                                 <th>Consumo</th>
-                                <th>Superamento Soglia</th>
-                                <th>Temperatura</th>
+                                <th>Soglia</th>
+                                <th>Alert</th>
                                 </tr>
                             </thead>
                              <tbody>
@@ -150,10 +172,11 @@ function Device(){
                                 <tr key={dev.readingId}>
                                         <td>{formatDate(dev.date)}</td>
                                         <td>{formatTime(dev.date)}</td>
+                                        <td>{dev.temperature}°C</td>
                                         <td>{dev.readingValue} <span className="text-body-tertiary">kWh</span></td>
                                         <td>{dev.consumptionValue} <span className="text-body-tertiary">kWh</span></td>
-                                        <td>{dev.consumptionValue > dev.consumptionThreshold ? "⚠️" : "✅"}</td>
-                                        <td>{dev.temperature}°C</td>
+                                        <td>{dev.consumptionThreshold} <span className="text-body-tertiary">kWh</span></td>
+                                        <td>{dev.consumptionValue > dev.consumptionThreshold ? "⚠️" : ""}</td>
                                         </tr>
                                 ))}
                                 </tbody>
@@ -187,6 +210,7 @@ function Device(){
             </Row>
             }
             {deviceDetail && deviceDetail.readings && deviceDetail.readings.length > 0 &&
+            <div className="p-2 bg-white rounded-3">
             <Chart
             chartType="AreaChart"
             width="100%"
@@ -194,7 +218,7 @@ function Device(){
             data={chartData}
             options={options}
             />
-                }
+            </div>}
                 </Col>
             </Row>          
         </Container>

@@ -3,8 +3,10 @@ import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyCompany } from "../redux/actions";
 import Checkmark from "./utils/Checkmark";
+import { useNavigate } from "react-router-dom";
 
 function CompanyUpdate(){
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const company = useSelector((state)=>state.company.content)
 
@@ -89,6 +91,12 @@ function CompanyUpdate(){
             setCompanyNumber(company.companyNumber || "")
         }
     },[company])
+
+    useEffect(()=>{
+        if(!company){
+            navigate("/dashboard")
+        }
+    },[])
 
     return(
         <Container>

@@ -66,11 +66,11 @@ function DeviceInstallation(){
                     </Form.Group>
                     <Form.Group >
                             <Form.Label className="mt-4">Tipologia Dispositivo</Form.Label>
-                            <DropdownButton
+                            <DropdownButton 
                             as={ButtonGroup}
                             align={{ lg: 'end' }}
                             title={deviceType ? deviceType : "Seleziona"}    
-                            className="w-100 mt-2"     
+                            className="w-100 mt-2 bg-white"     
                             variant="outline-info"
                             onSelect={(eventKey)=>setDeviceType(eventKey)}           
                             >

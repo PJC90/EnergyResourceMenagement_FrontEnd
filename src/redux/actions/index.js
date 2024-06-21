@@ -5,8 +5,12 @@ export const GET_DEVICE_DETAIL = 'GET_DEVICE_DETAIL'
 export const GET_CONSUMPTION_THRESHOLD = 'GET_CONSUMPTION_THRESHOLD'
 export const RESET_PROFILE = 'RESET_PROFILE'
 export const RESET_COMPANY = 'RESET_COMPANY'
+export const GET_ALERT_READINGS = 'GET_ALERT_READINGS'
 
-const token = localStorage.getItem('tokenAdmin')
+export const getAlertReadings = (alertReadings) => ({
+  type: GET_ALERT_READINGS,
+  payload: alertReadings,
+})
 
 export const resetProfile = () => ({
   type: RESET_PROFILE,
@@ -95,7 +99,7 @@ export const getMyDevice = () => {
 export const getDeviceDetail = (deviceId) => {
   return (dispatch) => {
     fetch(`${import.meta.env.VITE_API_BASE_URL}/device/${deviceId}`, {
-      headers: { Authorization: token },
+      headers: { Authorization: localStorage.getItem('tokenAdmin') },
     })
       .then((res) => {
         if (res.ok) {
@@ -121,7 +125,7 @@ export const getLastConsumptionThreshold = (deviceId) => {
         import.meta.env.VITE_API_BASE_URL
       }/reading/consumptionThreshold/${deviceId}`,
       {
-        headers: { Authorization: token },
+        headers: { Authorization: localStorage.getItem('tokenAdmin') },
       }
     )
       .then((res) => {

@@ -11,6 +11,7 @@ import CompanyCreation from './components/CompanyCreation'
 import CompanyUpdate from './components/CompanyUpdate'
 import Device from './components/Device'
 import DeviceInstallation from './components/DeviceInstallation'
+import AlarmPage from './components/AlarmPage'
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/companyCreation" element={<CompanyCreation/>}/>
           <Route path="/updateCompany" element={<CompanyUpdate/>}/>
           <Route path="/saveNewDevice" element={<DeviceInstallation/>}/>
+          <Route path="/alarmPage" element={<AlarmPage/>}/>
         </Routes>
         </div>
         <Footer/>  

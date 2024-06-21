@@ -145,7 +145,7 @@ function Dashboard(){
                     <td>{dev.deviceType}</td>
                     <td>{dev.installation}</td>
                     <td>{dev.plantAddress}</td>
-                    <td>{dev.readings[dev.readings.length -1].readingValue} kWh</td>
+                    <td>{dev.readings.length ? dev.readings[dev.readings.length -1].readingValue : 0} kWh</td>
                     <td className="text-info text-center" style={{cursor: "pointer"}} 
                     onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} 
                     onMouseLeave={(e) => e.target.style.textDecoration = 'none'}

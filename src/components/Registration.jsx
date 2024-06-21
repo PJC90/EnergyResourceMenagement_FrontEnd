@@ -54,8 +54,8 @@ function Registration(){
         <Container >
             <Row className="d-flex justify-content-center ">
                 <Col className="d-flex flex-column " xs={6}>
-                <p className="text-body-tertiary text-center m-0">Registrati compilando i seguenti campi</p>
-                <Form
+                <p className="text-body-tertiary text-center m-0 mt-5">Registrati compilando i seguenti campi</p>
+                <Form className="mb-5 pb-5"
                 onSubmit={(e)=>{
                     e.preventDefault()
                     registerUser()}}

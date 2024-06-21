@@ -3,6 +3,7 @@ import { Button, Container, Dropdown, Nav, Navbar } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { getMyProfileAction, resetCompany, resetProfile } from "../redux/actions"
+import { Alarm } from "react-bootstrap-icons"
 
 function CustomNavbar(){
   const navigate = useNavigate()
@@ -12,8 +13,10 @@ function CustomNavbar(){
   const profile = useSelector((state)=> state.user.content)
 
   useEffect(() => {  
+    if(token){
       dispatch(getMyProfileAction());
       // aggiungendo token come dipendenza aggiorni lo stato di redux e quindi permetti di mostrare l'utente corretto
+    }
   }, [token]);
 
   const handleLogout = () => {
@@ -35,7 +38,8 @@ return(
         <Nav.Link onClick={()=>{navigate("/dashboard")}}>Dashboard</Nav.Link>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          {token ? (
+          <Alarm onClick={()=>{navigate("/alarmPage")}}/>
+          {token && profile ? (
           <Dropdown >
             <Dropdown.Toggle variant="white" className="text-white d-flex align-items-center">
              <img src={profile && profile.avatar} alt="image-profile" style={{width:'45px', height:'45px', objectFit:"cover"}} className="rounded-pill me-3 border border-3"/>
