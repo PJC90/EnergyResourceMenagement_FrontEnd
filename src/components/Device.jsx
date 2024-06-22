@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Button, Col, Container, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Button, Col, Container, Form, InputGroup, Row, Spinner, Table } from "react-bootstrap";
 import Chart from "react-google-charts";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getAlertReadings, getDeviceDetail, getLastConsumptionThreshold } from "../redux/actions";
+import { getDeviceDetail, getLastConsumptionThreshold } from "../redux/actions";
 import Checkmark from "./utils/Checkmark";
 
 
@@ -102,19 +102,11 @@ function Device(){
             dispatch(getLastConsumptionThreshold(deviceId))
     },[deviceId, updateConsumSuccess ])
 
-    useEffect(() => {
-        if (deviceDetail && deviceDetail.readings) {
-            const alertReadings = deviceDetail.readings.filter(dev => dev.consumptionValue > dev.consumptionThreshold);
-            dispatch(getAlertReadings(alertReadings));
-            console.log(alertReadings)
-        }
-    }, [deviceDetail]);
-
-    //oltre a salvare le letture nello stato redux devi salvare (in un altro stato) anche le informazioni del dispositivo perchè redux è immutabile non puoi salvare e modificare un dato
 
 
     return(
         <Container fluid className="px-5">
+            {deviceDetail ? (
             <Row>
                 <Col>
                     <Row>
@@ -220,7 +212,12 @@ function Device(){
             />
             </div>}
                 </Col>
-            </Row>          
+            </Row>  
+            ) : (
+                <div className="text-center mt-5">
+                <Spinner variant="info"/>
+                </div>
+            )}        
         </Container>
     )
 }

@@ -1,9 +1,8 @@
-import { GET_ALERT_READINGS, GET_DEVICE, GET_DEVICE_DETAIL } from '../actions'
+import { GET_DEVICE, GET_DEVICE_DETAIL } from '../actions'
 
 const initialState = {
   content: [],
   deviceById: null,
-  alertReadings: [],
 }
 
 const deviceReducer = (state = initialState, action) => {
@@ -17,11 +16,6 @@ const deviceReducer = (state = initialState, action) => {
       return {
         ...state,
         deviceById: action.payload,
-      }
-    case GET_ALERT_READINGS:
-      return {
-        ...state,
-        alertReadings: action.payload,
       }
     default:
       return state

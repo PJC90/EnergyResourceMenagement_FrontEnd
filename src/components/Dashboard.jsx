@@ -37,6 +37,7 @@ function Dashboard(){
         dispatch(getMyDevice())
     },[])
       
+    console.log(allMyDevice)
     return(
         <Container className="mt-4">
             {!company && 
@@ -139,7 +140,7 @@ function Dashboard(){
                     </tr>
                 </thead>
                 <tbody>
-            { allMyDevice.content && allMyDevice.content.map((dev)=>(
+            {allMyDevice && allMyDevice.content && allMyDevice.content.map((dev)=>(
             <tr key={dev.deviceId}>
                     <td>{dev.deviceNumber}</td>
                     <td>{dev.deviceType}</td>

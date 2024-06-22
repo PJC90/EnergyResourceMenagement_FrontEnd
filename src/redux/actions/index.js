@@ -5,12 +5,6 @@ export const GET_DEVICE_DETAIL = 'GET_DEVICE_DETAIL'
 export const GET_CONSUMPTION_THRESHOLD = 'GET_CONSUMPTION_THRESHOLD'
 export const RESET_PROFILE = 'RESET_PROFILE'
 export const RESET_COMPANY = 'RESET_COMPANY'
-export const GET_ALERT_READINGS = 'GET_ALERT_READINGS'
-
-export const getAlertReadings = (alertReadings) => ({
-  type: GET_ALERT_READINGS,
-  payload: alertReadings,
-})
 
 export const resetProfile = () => ({
   type: RESET_PROFILE,
