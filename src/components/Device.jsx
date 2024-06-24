@@ -159,7 +159,7 @@ function Device(){
                             <div className="d-flex h-100 flex-column align-items-center justify-content-evenly ">
                                 <p className=" fs-4">Totale Letture: <span className=" fw-bold border-bottom border-3 border-info">{deviceDetail && deviceDetail.readings && deviceDetail.readings.length}</span></p>
                                 
-                                <Button variant="outline-info" >Mostra dal più recente</Button>
+                                <Button variant="outline-info" >-</Button>
                             </div>
                         </Col>
                     </Row>
