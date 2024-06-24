@@ -104,8 +104,8 @@ useEffect(()=>{
 
     return(
         <Container>
-            <Row className="d-flex justify-content-center">
-                <Col xs={6}>
+            <Row className="d-flex  flex-column flex-md-row justify-content-center mt-5 mb-5 mb-lg-0">
+                <Col lg={6}>
                 <div><h4><span className="border-bottom border-5 border-info pb-1">Modifica profilo</span></h4></div>
                 <Form onSubmit={(e)=>{e.preventDefault(); editProfile()}} className="mt-5">
                     <Form.Group>
@@ -141,11 +141,11 @@ useEffect(()=>{
                     </div>
                 </Form>
                 </Col>
-                <Col xs={3}>
+                <Col lg={3} className="mt-5 mt-lg-0">
                 {myprofile && 
-                <img src={myprofile.avatar} alt="image-profile" className="w-100 rounded-3" />
+                <img src={myprofile.avatar} alt="image-profile" className="rounded-3" style={{width:"300px", height:"300px", objectFit:"cover"}}/>
                 }
-                <Form onSubmit={(e)=>{e.preventDefault(); uploadImage(); setUpdateImage(true)}}>
+                <Form onSubmit={(e)=>{e.preventDefault(); uploadImage(); setUpdateImage(true)}} style={{width:"300px"}}>
                     <Form.Control type="file" required size="sm"  className="mt-3 custom-file-input" 
                     onChange={(e)=>{setImage(e.target.files)}}/>
                     <div className="d-flex justify-content-center">

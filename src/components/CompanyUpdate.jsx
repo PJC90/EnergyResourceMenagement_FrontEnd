@@ -100,8 +100,8 @@ function CompanyUpdate(){
 
     return(
         <Container>
-            <Row className="d-flex justify-content-center mt-5">
-                <Col xs={6}>
+            <Row className="d-flex justify-content-center mt-5 ms-3 ms-md-0">
+                <Col lg={6}>
                 <div><h4><span className="border-bottom border-5 border-info pb-1">Modifica Azienda</span></h4></div>
                 <Form onSubmit={(e)=>{e.preventDefault(); updateCompany()}} className="mt-5">
                     <Form.Group>
@@ -134,12 +134,12 @@ function CompanyUpdate(){
                     </div>
                 </Form>
                 </Col>
-                <Col xs={3} className="mt-5">
+                <Col  lg={3} className="mt-5 mb-5 mb-lg-0">
                 {company &&
-                <img src={company.logo} 
-                alt="image-company" className="w-100 rounded-3"/>
+                <img src={company.logo} style={{width:"300px", height:"300px", objectFit:"cover"}}
+                alt="image-company" className="rounded-3"/>
                 }
-                <Form onSubmit={(e)=>{e.preventDefault(); uploadLogo(); setUpdateImage(true)}} >
+                <Form onSubmit={(e)=>{e.preventDefault(); uploadLogo(); setUpdateImage(true)}} style={{width:"300px"}}>
                     <Form.Group>
                         <Form.Control 
                         type="file" required size="sm"  className="mt-3 custom-file-input"

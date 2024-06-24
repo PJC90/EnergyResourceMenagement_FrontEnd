@@ -1,4 +1,4 @@
-import { GET_DEVICE, GET_DEVICE_DETAIL } from '../actions'
+import { GET_DEVICE, GET_DEVICE_DETAIL, RESET_DEVICE } from '../actions'
 
 const initialState = {
   content: [],
@@ -16,6 +16,10 @@ const deviceReducer = (state = initialState, action) => {
       return {
         ...state,
         deviceById: action.payload,
+      }
+    case RESET_DEVICE:
+      return {
+        initialState,
       }
     default:
       return state

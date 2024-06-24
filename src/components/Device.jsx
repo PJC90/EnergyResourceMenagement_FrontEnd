@@ -98,9 +98,21 @@ function Device(){
       }
 
     useEffect(()=>{
+        const interval = setInterval(()=>{
             dispatch(getDeviceDetail(deviceId))
             dispatch(getLastConsumptionThreshold(deviceId))
-    },[deviceId, updateConsumSuccess ])
+
+        },5000)
+
+        return () => clearInterval(interval)
+        
+    },[ ])
+
+    useEffect(()=>{
+            dispatch(getDeviceDetail(deviceId))
+            dispatch(getLastConsumptionThreshold(deviceId))
+    },[deviceId, updateConsumSuccess, dispatch ])
+
 
 
 

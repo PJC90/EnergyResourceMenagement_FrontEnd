@@ -1,17 +1,17 @@
+
 import { Col, Container, Row } from "react-bootstrap";
 import { ArrowRightCircleFill } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+
 function AlarmPage(){
     const navigate = useNavigate()
+
    
     const allMyDevice = useSelector((state)=>state.device.content)
- 
-
     const deviceInAllarm = allMyDevice && allMyDevice.content && allMyDevice.content.filter((n)=>n.allarmCount > 0)
-    console.log(allMyDevice)
-    console.log(deviceInAllarm)
+
     return (
         <Container>
             <Row className="d-flex flex-column justify-content-center" >

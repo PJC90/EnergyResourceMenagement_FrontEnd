@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { Button, Container, Dropdown, Nav, Navbar } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import {  getMyDevice, getMyProfileAction, resetCompany, resetProfile } from "../redux/actions"
+import {  getMyDevice, getMyProfileAction, resetCompany, resetDevice, resetProfile } from "../redux/actions"
 
 
 function CustomNavbar(){
@@ -21,8 +21,13 @@ function CustomNavbar(){
     if(token){
       dispatch(getMyProfileAction());
       // aggiungendo token come dipendenza aggiorni lo stato di redux e quindi permetti di mostrare l'utente corretto
+      
+      const interval = setInterval(()=>{
+        dispatch(getMyDevice())
+      },5000)
+      
+      return () => clearInterval(interval)
     }
-    dispatch(getMyDevice())
   }, [token]);
 
 
@@ -31,6 +36,7 @@ function CustomNavbar(){
     localStorage.removeItem("tokenAdmin")
     dispatch(resetCompany())
     dispatch(resetProfile())
+    dispatch(resetDevice())
     if (!localStorage.getItem("tokenAdmin")) {
       navigate("/");
     } else {
@@ -40,14 +46,20 @@ function CustomNavbar(){
 
 
 return(
-    <Navbar fixed="top" className="bg-body-secondary " style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)", height:'70px' }}>
+    <Navbar fixed="top" expand="md" className="bg-white" style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)" }}>
       <Container fluid className="px-5">
-        <Navbar.Brand href="#home"  onClick={()=>{navigate("/")}}>Energy Resource Menagement</Navbar.Brand>
-        <Nav.Link onClick={()=>{navigate("/dashboard")}}>Dashboard</Nav.Link>
+        <Navbar.Brand href="#home"   className="text-info fw-bold fs-5" onClick={()=>{navigate("/")}}>
+          <img src="/public/Logo.svg" alt="logo"  style={{width:"50px"}}/>
+          Energy RM
+          </Navbar.Brand>
         <Navbar.Toggle />
-        <Navbar.Collapse className="justify-content-end">
-
+        <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
+        <Nav className="ms-auto d-flex align-items-center">
+          {token &&
+        <Nav.Link onClick={()=>{navigate("/dashboard")}} className="me-5 text-body-tertiary fw-bold fs-5">Dashboard</Nav.Link>
+          }
       {/*--------------------------------------------- LOGO ALLARMI ----------------------------------------------------*/}
+      {token && 
       <div className='d-flex justify-content-center align-items-center me-4'>
             <div className='icon-effect'
                             style={{
@@ -75,6 +87,7 @@ return(
                  ) : ("")} 
           </div>
         </div>
+}
       {/*------------------------------------------------FINE LOGO ALLARMI ----------------------------------------------------*/}
     
 
@@ -98,6 +111,7 @@ return(
               Login
             </Button>
           )}
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -1,12 +1,12 @@
-import { Col, Container, Row } from "react-bootstrap"
+import { Button, Col, Container, Row } from "react-bootstrap"
 
 function Home(){
     return(
         <Container >
-            <Row className="d-flex flex-column text-center align-items-center mt-5">
-                <Col xs={6}>
-                <h1>Energy Resource Menagement</h1>
-            <p>
+            <Row className="d-flex mt-5 ms-lg-5 flex-column flex-lg-row align-items-center">
+                <h1 className="mt-5"><span className="border-bottom border-5 border-info pb-">Energy Resource Menagement</span></h1>
+                <Col >
+            <p className="mt-3 m-xl-0">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quod consectetur minus incidunt minima iure repellat 
                 officiis eaque delectus eos inventore error tenetur, dolorum repellendus excepturi quas unde aperiam vel.
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quod consectetur minus incidunt minima iure repellat 
@@ -18,8 +18,12 @@ function Home(){
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore quod consectetur minus incidunt minima iure repellat 
                 officiis eaque delectus eos inventore error tenetur, dolorum repellendus excepturi quas unde aperiam vel.
             </p>
-
-            <h3>Insert image that resembles an energy management company</h3>
+            <Button variant="outline-info" className=" mt-4">Mostra altro </Button>
+                </Col>
+                <Col className="mt-5 ms-lg-5 text-center mb-5" style={{backgroundImage: 'url(Line.png)', backgroundSize: 'cover',}}>
+                
+                <img src="Image (1).png" alt="image-company" />
+                    
                 </Col>
             </Row>
             

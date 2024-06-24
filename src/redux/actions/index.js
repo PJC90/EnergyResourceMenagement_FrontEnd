@@ -5,6 +5,7 @@ export const GET_DEVICE_DETAIL = 'GET_DEVICE_DETAIL'
 export const GET_CONSUMPTION_THRESHOLD = 'GET_CONSUMPTION_THRESHOLD'
 export const RESET_PROFILE = 'RESET_PROFILE'
 export const RESET_COMPANY = 'RESET_COMPANY'
+export const RESET_DEVICE = 'RESET_DEVICE'
 
 export const resetProfile = () => ({
   type: RESET_PROFILE,
@@ -12,6 +13,9 @@ export const resetProfile = () => ({
 
 export const resetCompany = () => ({
   type: RESET_COMPANY,
+})
+export const resetDevice = () => ({
+  type: RESET_DEVICE,
 })
 
 export const getMyProfileAction = () => {

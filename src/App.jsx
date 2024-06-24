@@ -20,7 +20,7 @@ function App() {
         <div className='mb-5'>
         <CustomNavbar/>
         </div>
-        <div className="flex-grow-1 pt-5">
+        <div className="flex-grow-1 pt-5" style={{backgroundColor: "rgba(236, 236, 236, 0.3)"}}>
         <Routes>
           <Route path='/login' element={<Login/>}/>
           <Route path='/' element={<Home/>}/>
