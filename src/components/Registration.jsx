@@ -52,9 +52,9 @@ function Registration(){
     }
     return(
         <Container >
-            <Row className="d-flex justify-content-center ">
-                <Col className="d-flex flex-column " xs={6}>
-                <p className="text-body-tertiary text-center m-0 mt-5">Registrati compilando i seguenti campi</p>
+            <Row className="d-flex justify-content-center">
+                <Col className="d-flex flex-column  bg-white mx-5 mx-md-0 mt-4 mb-5 px-5 rounded-3 shadow-sm" lg={6}>
+                <p className=" text-end m-0 mt-4 fs-5"><span className="border-bottom border-2 border-info pb-1">Registrati compilando i seguenti campi</span></p>
                 <Form className="mb-5 pb-5"
                 onSubmit={(e)=>{
                     e.preventDefault()

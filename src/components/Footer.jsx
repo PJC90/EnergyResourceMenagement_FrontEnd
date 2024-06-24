@@ -5,11 +5,11 @@ function Footer(){
     return(
       <Container fluid className="bg-info " style={{boxShadow: "0px -4px 10px 0px rgba(0,0,0,0.05), 0px 3px 20px 0px rgba(0,0,0,0.1)"}}>
         <Container>
-          <Row className="mt-4 mb-3 pt-2">
-              <Col>
+          <Row className="mt-4 mb-3 pt-2 d-flex flex-column flex-md-row ">
+              <Col className="d-flex justify-content-center justify-content-md-start">
           <div className="pb-3 text-white ">© {new Date().getFullYear()} Energy RM - All rights reserved.</div>
               </Col>
-              <Col className="d-flex justify-content-end pt-2">
+              <Col className="d-flex justify-content-center justify-content-md-end pt-2 my-3 my-md-0">
                   <Linkedin className="mx-2 text-white"/>
                   <Instagram className="mx-2 text-white"/>
                   <TwitterX className="mx-2 text-white"/>

@@ -20,7 +20,6 @@ function CustomNavbar(){
   useEffect(() => {  
     if(token){
       dispatch(getMyProfileAction());
-      // aggiungendo token come dipendenza aggiorni lo stato di redux e quindi permetti di mostrare l'utente corretto
       
       const interval = setInterval(()=>{
         dispatch(getMyDevice())
@@ -49,7 +48,7 @@ return(
     <Navbar fixed="top" expand="md" className="bg-white" style={{ boxShadow: "0px 10px 20px 0px rgba(0,0,0,0.1), 0px 4px 8px 0px rgba(0,0,0,0.01)" }}>
       <Container fluid className="px-5">
         <Navbar.Brand href="#home"   className="text-info fw-bold fs-5" onClick={()=>{navigate("/")}}>
-          <img src="/public/Logo.svg" alt="logo"  style={{width:"50px"}}/>
+          <img src="/Logo.svg" alt="logo"  style={{width:"50px"}}/>
           Energy RM
           </Navbar.Brand>
         <Navbar.Toggle />

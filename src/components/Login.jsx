@@ -39,9 +39,9 @@ function Login(){
 
     return(
         <Container >
-            <Row className="d-flex justify-content-center mt-5">
-                <Col className="d-flex flex-column text-center mt-5" xs={6}>
-                <p className="fs-2">Accedi al tuo <span className="bg-info p-2 px-4 rounded-pill text-white"> Account</span></p>
+            <Row className="d-flex justify-content-center mt-5 ">
+                <Col className="d-flex flex-column text-center  p-5 mt-5 bg-white rounded-4 shadow-sm" lg={6}>
+                <p className="fs-2 text-nowrap">Accedi al tuo <span className="bg-info p-2 px-4 rounded-pill text-white"> Account</span></p>
                 <p className="text-body-tertiary">Inserisci le tue credenziali</p>
                 <Form 
                 onSubmit={(e)=>{
@@ -62,9 +62,7 @@ function Login(){
                     >
                     <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
-                    <div className="d-flex justify-content-end mt-4">
-                        <p className="text-body-tertiary" >Password dimenticata?</p>
-                        </div>
+
                     <Button type="submit" className="my-2 w-100 text-white " variant="info">
                         Login
                     </Button>

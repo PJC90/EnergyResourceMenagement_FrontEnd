@@ -16,7 +16,7 @@ function Device(){
     const lastConsumptionThreshold = useSelector((state)=>state.reading.content)
 
     const chartData = deviceDetail && deviceDetail.readings ? [
-        ["Data", "Consumo kWh", "Soglia consumo"],
+        ["Data", "Consumo kWh", "Soglia di Allarme"],
         ...deviceDetail.readings.map((dev, index) => {
             // Calcolo del valore meno il valore precedente per dev.readingValue per avere il consumo attuale
             const previousValue = index > 0 ? deviceDetail.readings[index - 1].readingValue : 0;
@@ -25,14 +25,20 @@ function Device(){
             return [formatDate(dev.date) + ' ' + formatTime(dev.date), consumption, theshold];
         })
     ] : [
-        ["Data", "Consumo kWh", "Soglia consumo"]
+        ["Data", "Consumo kWh", "Soglia di Allarme"]
     ];
 
       
        const options = {
-        title: "Grafico Consumi Giornalieri",
+        // title: "Grafico Consumi Giornalieri",
+        // isStacked: "relative",
+        legend: { position: "top" },
         vAxis: { title:"Kwh", minValue: 0 },
         chartArea: { width: "70%", height: "70%" },
+        series: {
+            0: { color: '#0DCAF0' }, 
+            1: { color: 'red' }  
+        }
       };
 
       function getTempAvg() {
@@ -51,7 +57,7 @@ function Device(){
       
      const options2 = {
         // width: 400,
-        // height: 120,
+        height: 200,
         redFrom: 90,
         redTo: 100,
         yellowFrom: 75,
@@ -120,13 +126,13 @@ function Device(){
         <Container fluid className="px-5">
             {deviceDetail ? (
             <Row>
-                <Col>
-                    <Row>
-                        <Col>
-                            <div className="p-2 bg-white rounded-3">
+                <Col xxl={7} >
+                    <Row className="mt-4 d-flex flex-column flex-md-row">
+                        <Col className="ps-0">
+                            <div className="p-2 bg-white rounded-3 shadow-sm">
                                 <Form onSubmit={(e)=>{e.preventDefault(); updateConsumptionThreshold()}}
-                                    className="d-flex mt-3">
-                                        <InputGroup className="mx-5">
+                                    className="d-flex flex-column flex-lg-row mt-3">
+                                        <InputGroup className="mx-5" style={{width:"200px"}}>
                                             <Form.Control
                                             type="number" 
                                             onChange={(e)=>{e.preventDefault(); setConsumptionThreshold(e.target.value)}}
@@ -134,12 +140,12 @@ function Device(){
                                             <InputGroup.Text>kWh</InputGroup.Text>
                                         </InputGroup>
                                        
-                                            <Button className="text-white text-nowrap me-5" variant="info" type="submit">Imposta nuova soglia</Button>                                       
+                                            <Button className="text-white text-nowrap me-5 ms-5 ms-lg-0 mt-3 mt-lg-0" variant="info" type="submit" style={{width:"200px"}}>Imposta nuova soglia</Button>                                       
                                     </Form> 
                                     <div className="d-flex justify-content-between">                  
-                                    <div className="d-flex align-items-center  my-4">
-                                        <p className="m-0"><span className="fw-bold border-bottom border-3 border-info pb-1 ms-5">Soglia Attuale di Consumo:</span></p>
-                                        <p className="ps-4 mb-0 fs-2">{lastConsumptionThreshold && lastConsumptionThreshold} <span className="text-body-tertiary">kWh</span></p>
+                                    <div className="d-flex align-items-center flex-column flex-md-row my-4">
+                                        <p className="m-0"><span className="fw-bold border-bottom border-3 border-info pb-1 ms-5 text-nowrap">Soglia Attuale di Consumo:</span></p>
+                                        <p className="ps-4 mb-0 fs-2 text-nowrap">{lastConsumptionThreshold && lastConsumptionThreshold} <span className="text-body-tertiary">kWh</span></p>
                                         </div>
                                         {updateConsumSuccess &&                               
                                         <div className="pe-5 mt-4">
@@ -149,9 +155,9 @@ function Device(){
                                     </div> 
                              </div>
                         </Col>
-                        <Col className="ms-5 bg-white rounded-3" xs={4}>
-                            <div className="d-flex h-100 flex-column align-items-center justify-content-evenly">
-                                <h3>Totale Letture: {deviceDetail && deviceDetail.readings && deviceDetail.readings.length}</h3>
+                        <Col className="ms-0 ms-md-5 mt-3 mt-md-0 py-3 py-md-0 bg-white rounded-3 shadow-sm" >
+                            <div className="d-flex h-100 flex-column align-items-center justify-content-evenly ">
+                                <p className=" fs-4">Totale Letture: <span className=" fw-bold border-bottom border-3 border-info">{deviceDetail && deviceDetail.readings && deviceDetail.readings.length}</span></p>
                                 
                                 <Button variant="outline-info" >Mostra dal più recente</Button>
                             </div>
@@ -159,49 +165,82 @@ function Device(){
                     </Row>
 
                 {deviceDetail &&
-                    <Table striped bordered hover className="my-5 mt-3 text-center">
-                           <thead>
-                                <tr>
-                                <th>Data</th>
-                                <th>Ora</th>
-                                <th>Temp</th>
-                                <th>Totale Consumo</th>
-                                <th>Consumo</th>
-                                <th>Soglia</th>
-                                <th>Alert</th>
-                                </tr>
-                            </thead>
-                             <tbody>
-                                { deviceDetail.readings && deviceDetail.readings.map((dev)=>(
-                                <tr key={dev.readingId}>
-                                        <td>{formatDate(dev.date)}</td>
-                                        <td>{formatTime(dev.date)}</td>
-                                        <td>{dev.temperature}°C</td>
-                                        <td>{dev.readingValue} <span className="text-body-tertiary">kWh</span></td>
-                                        <td>{dev.consumptionValue} <span className="text-body-tertiary">kWh</span></td>
-                                        <td>{dev.consumptionThreshold} <span className="text-body-tertiary">kWh</span></td>
-                                        <td>{dev.consumptionValue > dev.consumptionThreshold ? "⚠️" : ""}</td>
-                                        </tr>
-                                ))}
-                                </tbody>
-                    </Table>}
+                <>
+                <Row className="mt-3 mb-5  d-flex flex-column  bg-white p-0 rounded-3 shadow-sm">
+                <Col className="d-flex flex-row justify-content-around border-bottom bg-info pt-3  text-white rounded-top-4">
+                    <Row className="d-flex justify-content-between w-100 flex-nowrap">
+                        <Col className="d-none d-md-block">
+                    <p >Data</p>
+                        </Col>
+                        <Col className="d-none d-md-block">
+                    <p >Ora</p>
+                        </Col>
+                        <Col className="">
+                    <p >Temp</p>
+                        </Col>
+                        <Col>
+                    <p >Totale</p>
+                        </Col>
+                        <Col>
+                    <p >Consumo</p>
+                        </Col>
+                        <Col>
+                    <p >Soglia</p>
+                        </Col>
+                        <Col md={1}>
+                    <p >Alert</p>
+                        </Col>
+                    </Row>
+                </Col>
+                {deviceDetail.readings && deviceDetail.readings.map((dev)=>(
+            <Col key={dev.readingId} className="d-flex flex-row justify-content-around border-bottom ">
+                <Row className="d-flex justify-content-between w-100 mt-3 flex-nowrap">
+                    <Col className="d-none d-md-block">
+                    <p >{formatDate(dev.date)}</p>
+                    </Col>
+                    <Col className="d-none d-md-block">
+                    <p >{formatTime(dev.date)}</p>
+                    </Col>
+                    <Col className="">
+                    <p >{dev.temperature}°C</p>
+                    </Col>
+                    <Col className="">
+                    <p >{dev.readingValue} <span className="text-body-tertiary">kWh</span></p>
+                    </Col>
+                    <Col className="">
+                    <p >{dev.consumptionValue} <span className="text-body-tertiary">kWh</span></p>
+                    </Col>
+                    <Col className="">
+                    <p >{dev.consumptionThreshold} <span className="text-body-tertiary">kWh</span></p>
+                    </Col>
+                    <Col xs={1}>
+                    <p >{dev.consumptionValue > dev.consumptionThreshold ? "⚠️" : ""}</p>
+                    </Col>
+                    
+                </Row>
+                    
+                    </Col>))}
+            </Row>
+                    
+                    </>}
                 </Col>
 
-                <Col>
+        <Col className="" xxl={5}>
+        
                 {deviceDetail && 
-            <Row className="mt-5">
-                <Col>
-                <div className="d-flex flex-column justify-content-center">
-                    <h3>Tipologia dispositivo: {deviceDetail.deviceType}</h3>
-                    <h4>Matricola: {deviceDetail.deviceNumber}</h4>
-                    <p>Data Installazione: {deviceDetail.installation} </p>
-                    <p>Indirizzo impianto: {deviceDetail.plantAddress}</p>
-                </div>
+            <Row className=" mb-4 ms-5 d-flex justify-content-center ">
+                <Col className="d-flex flex-column  bg-white rounded-3 shadow-sm p-4 pb-2 mx-3 mt-4 " lg={4}>
+                
+                    <p><span className="border-bottom border-2 border-info text-body-secondary">Tipo:</span> {deviceDetail.deviceType}</p>
+                    <p><span className="border-bottom border-2 border-info text-body-secondary">Matricola:</span> {deviceDetail.deviceNumber}</p>
+                    <p><span className="border-bottom border-2 border-info text-body-secondary">Installazione:</span> {deviceDetail.installation} </p>
+                    <p><span className="border-bottom border-2 border-info text-body-secondary">Indirizzo impianto:</span> {deviceDetail.plantAddress}</p>
+                
                 </Col>
                 
                 {deviceDetail && deviceDetail.readings && deviceDetail.readings.length > 0 &&
-                <Col>
-                <p>Temperatura media:</p>
+                <Col className="d-flex flex-column align-items-center bg-white rounded-3 shadow-sm p-4 pb-2 mx-3 mt-4" lg={4}>
+                <p><span className="bg-info px-2 py-1 text-white rounded-3 text-nowrap">Temperatura media:</span></p>
                 <Chart
                 chartType="Gauge"
                 // width="100%"
@@ -211,19 +250,26 @@ function Device(){
                 />
                 </Col>
                 }
+                
             </Row>
-            }
-            {deviceDetail && deviceDetail.readings && deviceDetail.readings.length > 0 &&
-            <div className="p-2 bg-white rounded-3">
-            <Chart
-            chartType="AreaChart"
-            width="100%"
-            height="400px"
-            data={chartData}
-            options={options}
-            />
-            </div>}
+                }
+                {deviceDetail && deviceDetail.readings && deviceDetail.readings.length > 0 &&  
+            <Row className="w-100">
+                    <Col className="ms-5">
+                    <p className="text-center"><span className="border-bottom border-2 border-info  fw-bold fs-4">Grafico Consumi Giornalieri</span></p>
+                <div className="p-2 bg-white rounded-4 shadow-sm ">
+                <Chart
+                chartType="LineChart"
+                // width="100%"
+                height="500px"
+                data={chartData}
+                options={options}
+                />
+                </div>
                 </Col>
+                </Row>}
+                
+        </Col>
             </Row>  
             ) : (
                 <div className="text-center mt-5">

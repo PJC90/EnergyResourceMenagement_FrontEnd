@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyCompany, getMyDevice } from "../redux/actions";
 import { useNavigate } from "react-router-dom";
 import { PieChart } from "react-minimal-pie-chart";
-import { ArrowRightCircleFill, LightningChargeFill } from "react-bootstrap-icons";
+import { ArrowRight, ArrowRightCircleFill, LightningChargeFill } from "react-bootstrap-icons";
 
 
 
@@ -38,7 +38,6 @@ function Dashboard(){
         dispatch(getMyDevice())
     },[])
       
-    console.log(allMyDevice)
     return(
         <Container className="mt-4" >
             {!company && 
@@ -87,7 +86,7 @@ function Dashboard(){
            </Row>
            
            <Row className="mt-5 bg-white p-3 rounded-3 shadow-sm ">
-
+           {allMyDevice && allMyDevice.content && allMyDevice.content.length > 0 ? (<>
            <Col xs={3} className="me-5 d-none d-md-block">
             <PieChart animationEasing="ease-in" animationDuration={1500} animate={true} 
               lineWidth={25} data={chartData}/>
@@ -124,14 +123,23 @@ function Dashboard(){
             
             </Col>
 
-            <Col xs={2} >
+            <Col xs={2} cla>
             <p className="fw-bold">Totale Dispositivi installati:</p>
             <p className="fw-bold fs-1">{allMyDevice && allMyDevice.totalElements}</p>
+            <div>
             <LightningChargeFill style={{color:"#0DCAF020", height:"150px", width:"150px"}}/>
+            </div>
             </Col>
-                
+            </>):(
+                <>
+                <Col className="text-center" >
+                <h3 className="bg-info text-body-tertiary  bg-opacity-25 p-3 rounded-2">Nessun dispositivo associato a questo azienda</h3>
+                <p className="mt-3">Installa i dispositivi <span className="mx-3"><ArrowRight/></span> monitora letture</p>
+                </Col>
+                </>
+            )}
            </Row>
-
+           {allMyDevice && allMyDevice.content && allMyDevice.content.length > 0 ? (<>
            <p className="mt-4 text-black text-opacity-25 text-center mb-0">Elenco dispositivi:</p>
            
            <Row className="mt-3 mb-5 d-flex flex-column  bg-white p-0 rounded-3 shadow-sm">
@@ -172,8 +180,6 @@ function Dashboard(){
                     </Col>
                     <Col>
                     <p className="text-info ms-4" style={{cursor: "pointer"}} 
-                    onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} 
-                    onMouseLeave={(e) => e.target.style.textDecoration = 'none'}
                     onClick={()=>{navigate(`/device/${dev.deviceId}`)}}
                     > <ArrowRightCircleFill/></p>
                     </Col>
@@ -182,7 +188,7 @@ function Dashboard(){
                     </Col>
             ))}
            </Row>
-
+            </>) : ("")}
 
            </>)}
         </Container>
