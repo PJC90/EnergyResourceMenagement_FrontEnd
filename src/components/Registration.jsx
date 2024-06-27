@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Button, Col, Container, Form, Row } from "react-bootstrap"
+import { Alert, Button, Col, Container, Form, Row } from "react-bootstrap"
 import Checkmark from "./utils/Checkmark";
 import { useNavigate } from "react-router-dom";
 
@@ -12,6 +12,8 @@ function Registration(){
     const [username, setUsername] = useState("")
     const [birthday, setBirthday] = useState("")
     const [registerSuccess, setRegisterSuccess] = useState(false)
+    const [errorMail, setErrorMail] = useState(null)
+    const [errorUsername, setErrorUsername] = useState(null)
 
     const payload = {
         email: email,
@@ -35,7 +37,9 @@ function Registration(){
             if(res.ok){
                 return res.json()
             }else{
-                throw new Error("Errore nella registrazione")
+                return res.json().then((err)=>{
+                    throw new Error(err.message)
+                })
             }
         })
         .then((data)=>{
@@ -47,7 +51,14 @@ function Registration(){
             },3000)
         })
         .catch((err)=>{
-            console.log(err)
+            console.log(err.message)
+            if(err.message.startsWith("email")){
+                setErrorMail(err.message)
+            } else if(err.message.startsWith("username")){
+                setErrorUsername(err.message)
+            } else {
+                console.log("Errore sconosciuto", err.message)
+            }
         })
     }
     return(
@@ -63,6 +74,10 @@ function Registration(){
                     <Form.Group className="my-4" onChange={(e)=>{setEmail(e.target.value)}}>
                     <Form.Label>Indirizzo email</Form.Label>
                     <Form.Control type="email" placeholder="sample@mail.it" />
+                    <div className="mt-3">{errorMail && 
+                    <Alert variant="info" className="py-1 px-3">{errorMail}</Alert>
+                    }
+                    </div>
                     </Form.Group>
 
                     <Form.Group className="my-4" onChange={(e)=>{setName(e.target.value)}}>
@@ -78,6 +93,9 @@ function Registration(){
                     <Form.Group className="my-4" onChange={(e)=>{setUsername(e.target.value)}}>
                         <Form.Label>Nickname</Form.Label>
                         <Form.Control type="text" placeholder="SuperMario77" />
+                        <div className="mt-3">{errorUsername && 
+                    <Alert variant="info" className="py-1 px-3">{errorUsername}</Alert>
+                    }</div>
                     </Form.Group>
 
                     <Form.Group className="my-4" onChange={(e)=>{setBirthday(e.target.value)}}>

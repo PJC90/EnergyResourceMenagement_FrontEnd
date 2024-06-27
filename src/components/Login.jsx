@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap"
+import { Alert, Button, Col, Container, Row } from "react-bootstrap"
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 
 function Login(){
     const[email, setEmail] = useState("");
     const[password, setPassword] = useState("");
+    const [errorLogin, setErrorLogin] = useState(null)
     const navigate = useNavigate();
 
     const payload = {
@@ -25,7 +26,9 @@ function Login(){
             if(res.ok){
                 return res.json()
             }else{
-                throw new Error("Errore nel login")
+                return res.json().then((err)=>{
+                    throw new Error(err.message)
+                })
             }
         })
         .then((data)=>{
@@ -33,7 +36,8 @@ function Login(){
             navigate("/dashboard")
         })
         .catch((err)=>{
-            console.log(err)
+            console.log(err.message)
+            setErrorLogin(err.message)
         })
     }
 
@@ -62,6 +66,10 @@ function Login(){
                     >
                     <Form.Control type="password" placeholder="Password" />
                     </Form.Group>
+
+                    <div className="mt-3">{errorLogin && 
+                    <Alert variant="info" className="py-1 px-3">{errorLogin}</Alert>
+                    }</div>
 
                     <Button type="submit" className="my-2 w-100 text-white " variant="info">
                         Login
